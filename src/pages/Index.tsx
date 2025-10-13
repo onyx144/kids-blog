@@ -1,10 +1,20 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User, BookOpen, Heart, Dumbbell, Palette, Cat, Wrench, Smile, GraduationCap } from 'lucide-react';
+import fm from 'front-matter';
 
+
+interface PostMeta {
+  title?: string;
+  category?: string;
+  date?: string;
+  author?: string;
+  slug?: string;
+  image?: string;
+  excerpt?: string;
+}
 const categories = [
   { name: 'Дозвілля', slug: 'дозвілля', icon: Heart, color: 'bg-kidsPink' },
   { name: 'Все для батьків', slug: 'батьки', icon: User, color: 'bg-kidsAccent' },
@@ -51,6 +61,43 @@ const foxActivities = [
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('fox-activities');
+  const [latestNews, setLatestNews] = useState<PostMeta[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {    
+        const files = [
+          'lisenya-na-velosipedi.md',
+          'pershiy-den-u-shkoli.md',
+          'malyuyemo-veselku.md',
+          'kakadu-krani.md'
+        ];
+
+        const postsPromises = files.map(async (file) => {
+          const res = await fetch(`/content/${file}`);
+          const text = await res.text();
+          const { attributes } = fm<PostMeta>(text);
+          return {
+            ...attributes,
+            slug: file.replace('.md', ''),
+          };
+        });
+
+        const posts = await Promise.all(postsPromises);
+
+        // сортировка по дате
+        const sorted = posts
+          .filter(p => p.date) // только с датой
+          .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+
+        setLatestNews(sorted.slice(0, 3));
+      } catch (err) {
+        console.error('❌ Error fetching posts:', err);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-yellow-50">
@@ -177,66 +224,25 @@ const Index = () => {
             Останні новини
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Sample news cards */}
-            <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Badge variant="secondary" className="bg-kidsSecondary text-white">
-                    Спорт
-                  </Badge>
-                  <div className="ml-auto flex items-center text-sm text-gray-500">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    24 червня
-                  </div>
-                </div>
-                <h4 className="font-bold text-lg mb-2">
-                  Лисеня на велосипеді
-                </h4>
-                <p className="text-gray-600 text-sm">
-                  Дізнайся, як Лисеня навчилося кататися на велосипеді та які пригоди його чекали!
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Badge variant="secondary" className="bg-kidsPrimary text-white">
-                    Навчання
-                  </Badge>
-                  <div className="ml-auto flex items-center text-sm text-gray-500">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    20 червня
-                  </div>
-                </div>
-                <h4 className="font-bold text-lg mb-2">
-                  Перший день у школі
-                </h4>
-                <p className="text-gray-600 text-sm">
-                  Хвилююча історія про те, як Лисеня готувалося до школи та що сталося в його перший навчальний день.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Badge variant="secondary" className="bg-kidsYellow text-gray-800">
-                    Творчість
-                  </Badge>
-                  <div className="ml-auto flex items-center text-sm text-gray-500">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    22 червня
-                  </div>
-                </div>
-                <h4 className="font-bold text-lg mb-2">
-                  Малюємо веселку
-                </h4>
-                <p className="text-gray-600 text-sm">
-                  Майстер-клас від Лисеня: як намалювати красиву веселку та створити сонячний настрій!
-                </p>
-              </CardContent>
-            </Card>
+            {latestNews.map((post) => (
+              <Link key={post.slug} to={`/post/${post.slug}`}>
+                <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Badge className={`text-white ${post.category === 'спорт' ? 'bg-kidsSecondary' : post.category === 'навчання' ? 'bg-kidsPrimary' : post.category === 'творчість' ? 'bg-kidsYellow' : 'bg-kidsPurple'}`}>
+                        {post.category}
+                      </Badge>
+                      <div className="ml-auto flex items-center text-sm text-gray-500">
+                        <Calendar className="w-4 h-4 mr-1" />
+                        {post.date && new Date(post.date).toLocaleDateString('uk-UA')}
+                      </div>
+                    </div>
+                    <h4 className="font-bold text-lg mb-2">{post.title}</h4>
+                    <p className="text-gray-600 text-sm">{post.excerpt}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
