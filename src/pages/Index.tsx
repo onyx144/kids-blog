@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User, BookOpen, Heart, Dumbbell, Palette, Cat, Wrench, Smile, GraduationCap } from 'lucide-react';
-import fm from 'front-matter';
-
 
 interface PostMeta {
-  title?: string;
-  category?: string;
-  date?: string;
-  author?: string;
-  slug?: string;
-  image?: string;
+  title: string;
+  category: string;
+  date: string;
+  author: string;
+  slug: string;
+  image: string;
   excerpt?: string;
+  description?: string;
 }
+
 const categories = [
   { name: 'Дозвілля', slug: 'дозвілля', icon: Heart, color: 'bg-kidsPink' },
   { name: 'Все для батьків', slug: 'батьки', icon: User, color: 'bg-kidsAccent' },
@@ -60,43 +60,25 @@ const foxActivities = [
 ];
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('fox-activities');
   const [latestNews, setLatestNews] = useState<PostMeta[]>([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {    
-        const files = [
-          'lisenya-na-velosipedi.md',
-          'pershiy-den-u-shkoli.md',
-          'malyuyemo-veselku.md',
-          'kakadu-krani.md'
-        ];
+    const fetchLatestPosts = async () => {
+      try {
+        const res = await fetch('/list/posts.json');
+        const data: PostMeta[] = await res.json();
 
-        const postsPromises = files.map(async (file) => {
-          const res = await fetch(`/content/${file}`);
-          const text = await res.text();
-          const { attributes } = fm<PostMeta>(text);
-          return {
-            ...attributes,
-            slug: file.replace('.md', ''),
-          };
-        });
-
-        const posts = await Promise.all(postsPromises);
-
-        // сортировка по дате
-        const sorted = posts
-          .filter(p => p.date) // только с датой
-          .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+        const sorted = data
+          .filter(p => p.date)
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
         setLatestNews(sorted.slice(0, 3));
       } catch (err) {
-        console.error('❌ Error fetching posts:', err);
+        console.error('❌ Error fetching posts.json:', err);
       }
     };
 
-    fetchPosts();
+    fetchLatestPosts();
   }, []);
 
   return (
@@ -150,7 +132,7 @@ const Index = () => {
             Обери свою категорію
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {categories.map((category, index) => {
+            {categories.map((category) => {
               const IconComponent = category.icon;
               return (
                 <Link 
@@ -175,13 +157,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Fox Activities Section */}
+      {/* Fox Activities */}
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">
-              Безпосередньо в...
-            </h3>
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Безпосередньо в...</h3>
             <div className="flex justify-center">
               <div className="bg-white rounded-full px-8 py-2 shadow-lg border-2 border-kidsPrimary">
                 <span className="text-kidsPrimary font-bold">Пригоди Лисеня</span>
@@ -191,23 +171,15 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {foxActivities.map((activity, index) => (
-              <Link 
-                key={index}
-                to={`/category/${activity.category}`}
-                className="group"
-              >
+              <Link key={index} to={`/category/${activity.category}`} className="group">
                 <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden border-2 hover:border-kidsPrimary">
                   <CardContent className="p-0">
                     <div className={`${activity.color} h-32 flex items-center justify-center text-6xl group-hover:animate-wiggle`}>
                       {activity.image}
                     </div>
                     <div className="p-6">
-                      <h4 className="font-bold text-lg text-gray-800 mb-2">
-                        {activity.title}
-                      </h4>
-                      <p className="text-gray-600 text-sm">
-                        {activity.description}
-                      </p>
+                      <h4 className="font-bold text-lg text-gray-800 mb-2">{activity.title}</h4>
+                      <p className="text-gray-600 text-sm">{activity.description}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -223,27 +195,39 @@ const Index = () => {
           <h3 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Останні новини
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {latestNews.map((post) => (
-              <Link key={post.slug} to={`/post/${post.slug}`}>
-                <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <Badge className={`text-white ${post.category === 'спорт' ? 'bg-kidsSecondary' : post.category === 'навчання' ? 'bg-kidsPrimary' : post.category === 'творчість' ? 'bg-kidsYellow' : 'bg-kidsPurple'}`}>
-                        {post.category}
-                      </Badge>
-                      <div className="ml-auto flex items-center text-sm text-gray-500">
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {post.date && new Date(post.date).toLocaleDateString('uk-UA')}
+
+          {latestNews.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {latestNews.map((post) => (
+                <Link key={post.slug} to={`/posts/${post.slug}`}>
+                  <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden border-2 hover:border-kidsPrimary">
+                    <img src={post.image} alt={post.title} className="w-full h-40 object-cover" />
+                    <CardContent className="p-6">
+                      <div className="flex items-center mb-4">
+                        <Badge className={`text-white ${
+                          post.category === 'спорт' ? 'bg-kidsSecondary' :
+                          post.category === 'навчання' ? 'bg-kidsPrimary' :
+                          post.category === 'творчість' ? 'bg-kidsYellow' :
+                          post.category === 'тварини' ? 'bg-kidsPurple' :
+                          'bg-kidsAccent'
+                        }`}>
+                          {post.category}
+                        </Badge>
+                        <div className="ml-auto flex items-center text-sm text-gray-500">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          {new Date(post.date).toLocaleDateString('uk-UA')}
+                        </div>
                       </div>
-                    </div>
-                    <h4 className="font-bold text-lg mb-2">{post.title}</h4>
-                    <p className="text-gray-600 text-sm">{post.excerpt}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+                      <h4 className="font-bold text-lg mb-2">{post.title}</h4>
+                      <p className="text-gray-600 text-sm">{post.excerpt || post.description}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500">Наразі немає новин</p>
+          )}
         </div>
       </section>
 
@@ -256,15 +240,9 @@ const Index = () => {
             Дитячі новини, які роблять світ яскравішим!
           </p>
           <div className="flex justify-center space-x-6">
-            <Link to="/about" className="hover:text-kidsPrimary transition-colors">
-              Про нас
-            </Link>
-            <Link to="/contact" className="hover:text-kidsPrimary transition-colors">
-              Контакти
-            </Link>
-            <Link to="/privacy" className="hover:text-kidsPrimary transition-colors">
-              Конфіденційність
-            </Link>
+            <Link to="/about" className="hover:text-kidsPrimary transition-colors">Про нас</Link>
+            <Link to="/contact" className="hover:text-kidsPrimary transition-colors">Контакти</Link>
+            <Link to="/privacy" className="hover:text-kidsPrimary transition-colors">Конфіденційність</Link>
           </div>
         </div>
       </footer>
