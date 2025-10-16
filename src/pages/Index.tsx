@@ -14,7 +14,7 @@ interface PostMeta {
   excerpt?: string;
   description?: string;
 }
-
+/*Categorie:*/ 
 const categories = [
   { name: 'Дозвілля', slug: 'дозвілля', icon: Heart, color: 'bg-kidsPink' },
   { name: 'Все для батьків', slug: 'батьки', icon: User, color: 'bg-kidsAccent' },
