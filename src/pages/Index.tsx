@@ -27,7 +27,7 @@ const categories = [
   { name: 'Жарти', slug: 'жарти', icon: Smile, color: 'bg-kidsPink' },
   { name: 'Дитячий тиждень у класі', slug: 'клас', icon: GraduationCap, color: 'bg-kidsAccent' },
 ];
-
+/*list active*/ 
 const foxActivities = [
   {
     title: 'Лисеня займається спортом',
