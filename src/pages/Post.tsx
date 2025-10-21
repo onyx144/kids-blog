@@ -22,7 +22,7 @@ const categoryColors: Record<string, string> = {
   творчість: 'bg-kidsYellow',
   жарти: 'bg-kidsPink',
 }
-
+/*Post:*/ 
 export default function Post() {
   const { slug } = useParams<{ slug: string }>()
   const [meta, setMeta] = useState<PostMeta | null>(null)
