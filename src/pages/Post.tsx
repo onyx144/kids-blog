@@ -26,7 +26,7 @@ const categoryColors: Record<string, string> = {
 export default function Post() {
   const { slug } = useParams<{ slug: string }>()
   const [meta, setMeta] = useState<PostMeta | null>(null)
-  const [content, setContent] = useState<string>('Завантаження...')
+  const [content, setContent] = useState<string>('Завантаження... ')
   const [error, setError] = useState(false)
 
   useEffect(() => {
