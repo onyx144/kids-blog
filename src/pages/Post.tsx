@@ -20,7 +20,7 @@ const categoryColors: Record<string, string> = {
   спорт: 'bg-kidsSecondary',
   навчання: 'bg-kidsPrimary',
   творчість: 'bg-kidsYellow',
-  жарти: 'bg-kidsPink',
+  жарти: 'bg-kidsPink ',
 }
 /*Post:*/ 
 export default function Post() {
