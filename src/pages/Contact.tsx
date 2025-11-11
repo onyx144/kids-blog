@@ -137,7 +137,7 @@ const Contact = () => {
                 </CardContent>
               </Card>
 
-              <Card className="hover:shadow-lg transition-shadow">
+              <Card className=" hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
                     <div className="bg-kidsSecondary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
