@@ -102,7 +102,7 @@ export default function Post() {
         <div className="container mx-auto px-4 py-6 flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
             <div className="text-4xl animate-bounce-gentle">🦊</div>
-            <h1 className="text-2xl font-bold text-kidsPrimary">КідсТиждень</h1>
+            <h1 className="text-2xl font-bold text-kidsPrimary">Дитячий Тиждень</h1>
           </Link>
           <Link
             to={`/category/${meta.category}`}
@@ -175,7 +175,7 @@ export default function Post() {
       <footer className="bg-gray-800 text-white py-8">
         <div className="text-center">
           <div className="text-4xl mb-2">🦊</div>
-          <h4 className="text-2xl font-bold">КідсТиждень</h4>
+          <h4 className="text-2xl font-bold">Дитячий Тиждень</h4>
           <p className="text-gray-400">Дитячі новини, які роблять світ яскравішим!</p>
         </div>
       </footer>

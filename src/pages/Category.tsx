@@ -76,7 +76,7 @@ const Category = () => {
         <div className="container mx-auto px-4 py-6 flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
             <div className="text-4xl animate-bounce-gentle">🦊</div>
-            <h1 className="text-2xl font-bold text-kidsPrimary">КідсТиждень</h1>
+            <h1 className="text-2xl font-bold text-kidsPrimary">Дитячий Тиждень</h1>
           </Link>
           <Link to="/" className="flex items-center space-x-2 text-gray-600 hover:text-kidsPrimary transition-colors">
             <ArrowLeft className="w-5 h-5" />

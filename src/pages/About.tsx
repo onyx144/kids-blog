@@ -13,7 +13,7 @@ const About = () => {
             <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
               <div className="text-4xl animate-bounce-gentle">🦊</div>
               <div>
-                <h1 className="text-2xl font-bold text-kidsPrimary">КідсТиждень</h1>
+                <h1 className="text-2xl font-bold text-kidsPrimary">Дитячий Тиждень</h1>
               </div>
             </Link>
             <Link 
@@ -32,7 +32,7 @@ const About = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="text-8xl mb-6 animate-float">🦊</div>
           <h2 className="text-4xl font-bold text-gray-800 mb-4">
-            Про КідсТиждень
+            Про Дитячий Тиждень
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Ми створюємо яскравий та дружелюбний світ новин для дітей та їх батьків. 
@@ -136,7 +136,7 @@ const About = () => {
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="text-4xl mb-4">🦊</div>
-          <h4 className="text-2xl font-bold mb-2">КідсТиждень</h4>
+          <h4 className="text-2xl font-bold mb-2">Дитячий Тиждень</h4>
           <p className="text-gray-400 mb-4">
             Дитячі новини, які роблять світ яскравішим!
           </p>
