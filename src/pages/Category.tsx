@@ -121,7 +121,7 @@ const Category = () => {
                           {new Date(post.date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' })}
                         </div>
                       </div>
-                      <h3 className="font-bold text-xl mb-3 text-gray-800 group-hover:text-kidsPrimary transition-colors">
+                      <h3 className="  font-bold text-xl mb-3 text-gray-800 group-hover:text-kidsPrimary transition-colors">
                         {post.title}
                       </h3>
                       <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt || post.description}</p>
