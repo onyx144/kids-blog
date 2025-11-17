@@ -116,7 +116,7 @@ const Category = () => {
                         <Badge className={`${categoryColor} text-white border-0`}>
                           {category}
                         </Badge>
-                        <div className=" flex items-center text-sm text-gray-500">
+                        <div className="flex items-center text-sm text-gray-500">
                           <Calendar className="w-4 h-4 mr-1" />
                           {new Date(post.date).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' })}
                         </div>
