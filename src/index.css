@@ -100,4 +100,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+}
+a:hover {
+  color: rgb(255 107 53 / var(--tw-text-opacity, 1));
 }

@@ -93,6 +93,12 @@ export default function Post() {
     p: ({node, ...props}: any) => (
       <p className="text-lg text-gray-700 leading-relaxed mb-6" {...props} />
     ),
+    a: ({node, ...props}: any) => (
+      <a
+        className="text-kidsPrimary underline hover:opacity-80 transition-opacity"
+        {...props}
+      />
+    ),
   }
 
   return (
