@@ -159,7 +159,7 @@ const Privacy = () => {
                     будь ласка, зв'яжіться з нами:
                   </p>
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p><strong>Email:</strong> privacy@kidsweek.ua</p>
+                    <p><strong>Email:</strong> privacy@kidsweek.com.ua</p>
                     <p><strong>Адреса:</strong> м. Київ, Україна</p>
                   </div>
                 </div>
