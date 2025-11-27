@@ -14,6 +14,7 @@ interface PostMeta {
   date?: string
   author?: string
   image?: string
+  alt?: string
 }
 
 const categoryColors: Record<string, string> = {
@@ -153,7 +154,7 @@ export default function Post() {
 
           {meta.image && (
             <div className="mb-8 rounded-2xl overflow-hidden shadow-xl">
-              <img src={meta.image} alt={meta.title} className="w-full h-64 md:h-96 object-cover" />
+              <img src={meta.image} alt={meta.alt ?? meta.title} className="w-full h-64 md:h-96 object-cover" />
             </div>
           )}
 
