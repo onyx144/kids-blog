@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, User, ArrowLeft, MessageCircle, Heart, Share2 } from 'lucide-react'
+import { Calendar, User, MessageCircle } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import fm from 'front-matter'
+import Header from '@/components/Header'
 
 interface PostMeta {
   title?: string
@@ -104,22 +105,7 @@ export default function Post() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-yellow-50">
-      {/* Header */}
-      <header className="bg-white shadow-lg border-b-4 border-kidsPrimary">
-        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
-            <div className="text-4xl animate-bounce-gentle">🦊</div>
-            <h1 className="text-2xl font-bold text-kidsPrimary">Дитячий Тиждень</h1>
-          </Link>
-          <Link
-            to={`/category/${meta.category}`}
-            className="flex items-center space-x-2 text-gray-600 hover:text-kidsPrimary transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="capitalize">{meta.category}</span>
-          </Link>
-        </div>
-      </header>
+      <Header backLink="category" category={meta.category} />
 
       {/* Content */}
       <div className="container mx-auto px-4 py-8">

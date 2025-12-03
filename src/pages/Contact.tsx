@@ -3,31 +3,13 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import Header from '@/components/Header';
 
 const Contact = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-yellow-50">
-      {/* Header */}
-      <header className="bg-white shadow-lg border-b-4 border-kidsPrimary">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
-              <div className="text-4xl animate-bounce-gentle">🦊</div>
-              <div>
-                <h1 className="text-2xl font-bold text-kidsPrimary">Дитячий Тиждень</h1>
-              </div>
-            </Link>
-            <Link 
-              to="/" 
-              className="flex items-center space-x-2 text-gray-600 hover:text-kidsPrimary transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span>На головну</span>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="py-12">

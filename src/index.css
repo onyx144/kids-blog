@@ -99,8 +99,21 @@
 
   body {
     @apply bg-background text-foreground;
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f8e3a4 40%,
+      #f3b328 100%
+    );
   }
-  
+  body {
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f8e3a4 40%,
+      #f3b328 100%
+    );
+  }
 }
 a:hover {
   color: rgb(255 107 53 / var(--tw-text-opacity, 1));

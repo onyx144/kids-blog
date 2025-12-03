@@ -19,6 +19,14 @@ a:hover {
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+body {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f8e3a4 40%,
+    #f3b328 100%
+  );
+}
 
 @keyframes logo-spin {
   from {
