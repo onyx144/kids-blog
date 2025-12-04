@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User } from 'lucide-react';
 import Header from '@/components/Header';
+import Slider from "react-slick";
 
 interface PostMeta {
   title: string;
@@ -87,7 +88,7 @@ const Index = () => {
           .filter(p => p.date)
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-        setLatestNews(sorted.slice(0, 3));
+        setLatestNews(sorted.slice(0, 6));
       } catch (err) {
         console.error('❌ Error fetching posts.json:', err);
       }
