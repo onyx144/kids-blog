@@ -4,8 +4,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User } from 'lucide-react';
 import Header from '@/components/Header';
-import Slider from "react-slick";
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+import 'swiper/css';
 interface PostMeta {
   title: string;
   category: string;
@@ -143,33 +144,34 @@ const Index = () => {
   </div>
 
   {/* Mobile background */}
-  <div
-    className="block md:hidden w-full bg-cover bg-center flex items-center justify-center text-center px-4"
-    style={{
-      backgroundImage: "url('/images/phone_back_main.png')",
-      height: "480px",
-    }}
-  >
-    <div>
-      <h2
-        className="font-extrabold"
-        style={{
-          fontSize: "36px",
-          color: "#AF4C00",
-        }}
-      >
-        Пригоди з лисеням
-      </h2>
+  <div className="block md:hidden w-full relative">
+    <img 
+      src="/images/phone_back_main.png" 
+      alt="Пригоди з лисеням"
+      className="w-full h-auto"
+    />
+    <div className="absolute inset-0 flex items-center justify-center text-center px-4">
+      <div>
+        <h2
+          className="font-extrabold"
+          style={{
+            fontSize: "36px",
+            color: "#AF4C00",
+          }}
+        >
+          Пригоди з лисеням
+        </h2>
 
-      <p
-        className="mt-3 font-normal"
-        style={{
-          fontSize: "20px",
-          color: "#000",
-        }}
-      >
-        Цікаві історії, корисні поради та веселі пригоди разом з Лисеням
-      </p>
+        <p
+          className="mt-3 font-normal"
+          style={{
+            fontSize: "20px",
+            color: "#000",
+          }}
+        >
+          Цікаві історії, корисні поради та веселі пригоди разом з Лисеням
+        </p>
+      </div>
     </div>
   </div>
 </section>
@@ -237,9 +239,29 @@ const Index = () => {
           </h3>
 
           {latestNews.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+           <Swiper
+           spaceBetween={20}
+           slidesPerView={1}
+           breakpoints={{
+             640: {
+               slidesPerView: 1,
+               spaceBetween: 20,
+             },
+             768: {
+               slidesPerView: 2,
+               spaceBetween: 20,
+             },
+             1024: {
+               slidesPerView: 3,
+               spaceBetween: 20,
+             },
+           }}
+           onSlideChange={() => console.log('slide change')}
+           onSwiper={(swiper) => console.log(swiper)}
+         >
               {latestNews.map((post) => (
-                <Link key={post.slug} to={`/posts/${post.slug}`}>
+                <SwiperSlide className="p-3" key={post.slug}>
+                <Link to={`/posts/${post.slug}`}>
                   <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden border-2 hover:border-kidsPrimary">
                     <img src={post.image} alt={post.title} className="w-full h-40 object-cover" />
                     <CardContent className="p-6">
@@ -263,8 +285,9 @@ const Index = () => {
                     </CardContent>
                   </Card>
                 </Link>
+                </SwiperSlide>
               ))}
-            </div>
+            </Swiper>
           ) : (
             <p className="text-center text-gray-500">Наразі немає новин</p>
           )}
