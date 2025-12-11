@@ -125,17 +125,21 @@ const Index = () => {
           fontSize: "64px",
           color: "#AF4C00",
           lineHeight: "1.1",
+          textAlign: "left",
+          alignItems: "left",
         }}
       >
         Пригоди з лисеням
       </h2>
 
       <p
-        className="mt-4 font-normal"
+        className="mt-4 font-normal font-cormorant-regular"
         style={{
           fontSize: "32px",
           color: "#000",
           maxWidth: "600px",
+          textAlign: "left",
+          alignItems: "left",
         }}
       >
         Цікаві історії, корисні поради та веселі пригоди разом з Лисеням
@@ -150,23 +154,29 @@ const Index = () => {
       alt="Пригоди з лисеням"
       className="w-full h-auto"
     />
-    <div className="absolute inset-0 flex items-center justify-center text-center px-4">
+    <div className="absolute inset-0 flex px-4">
       <div>
         <h2
           className="font-extrabold"
           style={{
-            fontSize: "36px",
+            fontSize:  window.innerWidth < 450 ? "25px" : "32px",
             color: "#AF4C00",
+            textAlign: "left",
+            alignItems: "left",
           }}
         >
           Пригоди з лисеням
         </h2>
 
         <p
-          className="mt-3 font-normal"
+          className="font-cormorant-regular"
           style={{
-            fontSize: "20px",
+            fontSize: window.innerWidth < 450 ? "13px" : "15px",
             color: "#000",
+            textAlign: "left",
+            alignItems: "left",
+            maxWidth: "70%",
+            marginTop: window.innerWidth < 450 ? "0px" : "0.75rem",
           }}
         >
           Цікаві історії, корисні поради та веселі пригоди разом з Лисеням
@@ -177,7 +187,7 @@ const Index = () => {
 </section>
 
       {/* Categories Grid */}
-      <section className="py-12 ">
+      <section className="py-12 top-mobile mobile-section-bg">
         <div className="container mx-auto px-4">
           <h3 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Обери свою категорію
@@ -232,7 +242,7 @@ const Index = () => {
  
 
       {/* Latest News */}
-      <section className="py-12 bg-gradient-to-r from-kidsPrimary/10 to-kidsSecondary/10">
+      <section className="py-12 md:bg-gradient-to-r md:from-kidsPrimary/10 md:to-kidsSecondary/10 mobile-section-bg">
         <div className="container mx-auto px-4">
           <h3 className="text-3xl font-bold text-center mb-8 text-gray-800">
             Останні новини
