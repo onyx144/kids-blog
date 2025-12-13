@@ -99,7 +99,6 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'CormorantGaramond', serif;
     background: linear-gradient(
       180deg,
       #ffffff 0%,
