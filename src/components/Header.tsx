@@ -21,7 +21,7 @@ export default function Header({ home = false, backLink = 'home', category }: He
 
   return (
     <header className="bg-white shadow-lg border-b-4 border-kidsPrimary relative">
-      <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+      <div className=" mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity" onClick={closeMenu}>
           <img
             src="/images/logo.png"
