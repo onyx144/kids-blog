@@ -4,9 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User } from 'lucide-react';
 import Header from '@/components/Header';
-import { Swiper, SwiperSlide } from 'swiper/react';
-
-import 'swiper/css';
+import StarIcon from '@/svg/StarIcon';
 interface PostMeta {
   title: string;
   category: string;
@@ -89,7 +87,7 @@ const Index = () => {
           .filter(p => p.date)
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-        setLatestNews(sorted.slice(0, 6));
+        setLatestNews(sorted.slice(0, 12));
       } catch (err) {
         console.error('❌ Error fetching posts.json:', err);
       }
@@ -101,7 +99,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-yellow-50">
       <Header home />
-
+      <div style={{ fontFamily: "'CormorantGaramond', serif" }}>
      {/* Hero Section */}
 <section className="relative w-full">
   {/* Desktop background */}
@@ -185,14 +183,18 @@ const Index = () => {
     </div>
   </div>
 </section>
-
-      {/* Categories Grid */}
-      <section className="py-12 top-mobile mobile-section-bg">
-        <div className="container mx-auto px-4">
-          <h3 className="text-3xl font-bold text-center mb-8 text-gray-800">
+<section className="top-mobile sub-section-bg flex items-center  "> 
+          <StarIcon width={43} height={43}    />
+          <h3 className="h3-base">
             Обери свою категорію
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StarIcon width={43} height={43} />
+          </section>
+      {/* Categories Grid */}
+      <section className="py-12   mobile-section-bg">
+        <div className="container mx-auto px-4">
+          
+          <div className="flex flex-wrap justify-around gap-y-4 md:grid md:grid-cols-4 md:gap-4">
             {categories.map((category) => {
               return (
                 <Link 
@@ -216,18 +218,20 @@ const Index = () => {
                       }}
                     />
                     <CardContent className="p-0 relative" style={{ zIndex: 0 }}>
-                      <div className="relative w-full h-48 flex items-center justify-center">
+                      <div className="relative w-full h-[74px] md:h-48 flex items-center justify-center">
                         <img 
                           src={category.image} 
                           alt={category.name}
-                          className=" cover"
+                          className="cover"
                         />
                       </div>
                       <div 
-                        className="w-full bg-white px-4 py-3"
-                        style={{ borderRadius: '8px' }}
+                        className="w-full bg-white px-4 "
+                        style={{ borderRadius: '8px' ,
+                          backgroundColor: '#FFF0D5'
+                        }}
                       >
-                        <h4 className="font-bold text-gray-800 text-center">
+                        <h4 className="font-bold text-gray-800 text-center leading-7 font-cormorant-bold text-[20px] md:text-[26px]">
                           {category.name}
                         </h4>
                       </div>
@@ -240,38 +244,23 @@ const Index = () => {
         </div>
       </section>
  
-
+      <section className="md:bg-gradient-to-r md:from-kidsPrimary/10 md:to-kidsSecondary/10 top-mobile sub-section-bg flex items-center  "> 
+          <StarIcon width={43} height={43}    />
+          <h3 className="h3-base">
+          Останні новини
+          </h3>
+          <StarIcon width={43} height={43} />
+          </section>
+      </div>
       {/* Latest News */}
       <section className="py-12 md:bg-gradient-to-r md:from-kidsPrimary/10 md:to-kidsSecondary/10 mobile-section-bg">
         <div className="container mx-auto px-4">
-          <h3 className="text-3xl font-bold text-center mb-8 text-gray-800">
-            Останні новини
-          </h3>
+           
 
           {latestNews.length > 0 ? (
-           <Swiper
-           spaceBetween={20}
-           slidesPerView={1}
-           breakpoints={{
-             640: {
-               slidesPerView: 1,
-               spaceBetween: 20,
-             },
-             768: {
-               slidesPerView: 2,
-               spaceBetween: 20,
-             },
-             1024: {
-               slidesPerView: 3,
-               spaceBetween: 20,
-             },
-           }}
-           onSlideChange={() => console.log('slide change')}
-           onSwiper={(swiper) => console.log(swiper)}
-         >
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {latestNews.map((post) => (
-                <SwiperSlide className="p-3" key={post.slug}>
-                <Link to={`/posts/${post.slug}`}>
+                <Link to={`/posts/${post.slug}`} key={post.slug}>
                   <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer overflow-hidden border-2 hover:border-kidsPrimary">
                     <img src={post.image} alt={post.title} className="w-full h-40 object-cover" />
                     <CardContent className="p-6">
@@ -295,9 +284,8 @@ const Index = () => {
                     </CardContent>
                   </Card>
                 </Link>
-                </SwiperSlide>
               ))}
-            </Swiper>
+            </div>
           ) : (
             <p className="text-center text-gray-500">Наразі немає новин</p>
           )}

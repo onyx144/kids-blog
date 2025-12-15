@@ -104,6 +104,7 @@ const Contact = () => {
             <div className="space-y-6">
               
               {/* Contact Cards */}
+              {/*
               <Card className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
@@ -151,7 +152,7 @@ const Contact = () => {
                   </div>
                 </CardContent>
               </Card>
-
+                   */}
               {/* Fun Section */}
               <Card className="bg-gradient-to-r from-kidsPink to-kidsYellow border-0">
                 <CardContent className="p-6 text-center">
