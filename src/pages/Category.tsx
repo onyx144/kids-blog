@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User } from 'lucide-react';
 import Header from '@/components/Header';
+import StarIcon from '@/svg/StarIcon';
 
 interface Post {
   slug: string;
@@ -43,6 +44,33 @@ const categoryEmojis: Record<string, string> = {
   'клас': '🎓'
 };
 
+const categories = [
+  { 
+    name: 'Спорт', 
+    slug: 'спорт', 
+    gradient: 'linear-gradient(180deg, #FF8336 0%, #FFD3B2 100%)',
+    image: '/images/categories/sport.png'
+  },
+  { 
+    name: 'Навчання', 
+    slug: 'навчання', 
+    gradient: 'linear-gradient(180deg, #EBC64E 0%, #FFD3B2 100%)',
+    image: '/images/categories/study.png'
+  },
+  { 
+    name: 'Творчість', 
+    slug: 'творчість', 
+    gradient: 'linear-gradient(180deg, #FFAF36 0%, #FFD3B2 100%)',
+    image: '/images/categories/drive.png'
+  },
+  { 
+    name: 'Жарти', 
+    slug: 'жарти', 
+    gradient: 'linear-gradient(180deg, #FF7C36 0%, #FFD3B2 100%)',
+    image: '/images/categories/joke.png'
+  },
+];
+
 const Category = () => {
   const { category } = useParams<{ category: string }>();
   const [posts, setPosts] = useState<Post[]>([]);
@@ -73,13 +101,75 @@ const Category = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-yellow-50">
       <Header />
-
+      <div style={{ fontFamily: "'CormorantGaramond', serif" }}>
       {/* Category Hero */}
       <section className={`${categoryColor} py-12`}>
         <div className="container mx-auto px-4 text-center">
           <div className="text-8xl mb-4 animate-float">{categoryEmoji}</div>
           <h2 className="text-4xl font-bold text-white mb-4 capitalize">{category}</h2>
           <p className="text-xl text-white/90">Все найцікавіше в категорії "{category}"</p>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="top-mobile sub-section-bg flex items-center">
+        <StarIcon width={43} height={43} />
+        <h3 className="h3-base">
+          Обери свою категорію
+        </h3>
+        <StarIcon width={43} height={43} />
+      </section>
+      
+      {/* Categories Grid */}
+      <section className="py-12 mobile-section-bg">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap justify-around gap-y-4 md:grid md:grid-cols-4 md:gap-4">
+            {categories.map((cat) => {
+              return (
+                <Link 
+                  key={cat.slug}
+                  to={`/category/${cat.slug}`}
+                  className="group"
+                >
+                  <Card 
+                    className="overflow-hidden transition-all duration-300 hover:scale-105 cursor-pointer relative"
+                    style={{
+                      borderRadius: '18px',
+                      background: cat.gradient,
+                    }}
+                  >
+                    <div 
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        boxShadow: 'inset 0 4px 8px rgba(0, 0, 0, 0.1)',
+                        borderRadius: '18px',
+                        zIndex: 1,
+                      }}
+                    />
+                    <CardContent className="p-0 relative" style={{ zIndex: 0 }}>
+                      <div className="relative w-full h-[74px] md:h-48 flex items-center justify-center">
+                        <img 
+                          src={cat.image} 
+                          alt={cat.name}
+                          className="cover"
+                        />
+                      </div>
+                      <div 
+                        className="w-full bg-white px-4 "
+                        style={{ borderRadius: '8px' ,
+                          backgroundColor: '#FFF0D5'
+                        }}
+                      >
+                        <h4 className="font-bold text-gray-800 text-center leading-7 font-cormorant-bold text-[20px] md:text-[26px]">
+                          {cat.name}
+                        </h4>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -135,6 +225,7 @@ const Category = () => {
           )}
         </div>
       </section>
+      </div>
     </div>
   );
 };
