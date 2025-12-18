@@ -1,27 +1,40 @@
-
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, User, BookOpen, Dumbbell, Palette, Cat, Wrench, Smile, GraduationCap } from 'lucide-react';
 import Header from '@/components/Header';
+import StarIcon from '@/svg/StarIcon';
 
 const categories = [
-  { name: 'Дозвілля', slug: 'дозвілля', icon: Heart, color: 'bg-kidsPink', description: 'Ігри, розваги та цікаві занятття для дітей' },
-  { name: 'Все для батьків', slug: 'батьки', icon: User, color: 'bg-kidsAccent', description: 'Корисні поради та інформація для мам і тат' },
-  { name: 'Здоров\'я', slug: 'здоровя', icon: Heart, color: 'bg-kidsGreen', description: 'Здоровий спосіб життя та корисні звички' },
-  { name: 'Навчання', slug: 'навчання', icon: BookOpen, color: 'bg-kidsPrimary', description: 'Освітні матеріали та шкільне життя' },
-  { name: 'Спорт', slug: 'спорт', icon: Dumbbell, color: 'bg-kidsSecondary', description: 'Спортивні новини та активний відпочинок' },
-  { name: 'Творчість', slug: 'творчість', icon: Palette, color: 'bg-kidsYellow', description: 'Малювання, рукоділля та творчі проєкти' },
-  { name: 'Тварини', slug: 'тварини', icon: Cat, color: 'bg-kidsPurple', description: 'Світ тварин та догляд за домашніми улюбленцями' },
-  { name: 'Зроби сам', slug: 'зроби-сам', icon: Wrench, color: 'bg-kidsOrange', description: 'Майстер-класи та самодільні проєкти' },
-  { name: 'Жарти', slug: 'жарти', icon: Smile, color: 'bg-kidsPink', description: 'Веселі жарти, загадки та смішні історії' },
-  { name: 'Дитячий тиждень у класі', slug: 'клас', icon: GraduationCap, color: 'bg-kidsAccent', description: 'Шкільні події та класні заходи' },
+  { 
+    name: 'Спорт', 
+    slug: 'спорт', 
+    gradient: 'linear-gradient(180deg, #FF8336 0%, #FFD3B2 100%)',
+    image: '/images/categories/sport.png'
+  },
+  { 
+    name: 'Навчання', 
+    slug: 'навчання', 
+    gradient: 'linear-gradient(180deg, #EBC64E 0%, #FFD3B2 100%)',
+    image: '/images/categories/study.png'
+  },
+  { 
+    name: 'Творчість', 
+    slug: 'творчість', 
+    gradient: 'linear-gradient(180deg, #FFAF36 0%, #FFD3B2 100%)',
+    image: '/images/categories/drive.png'
+  },
+  { 
+    name: 'Жарти', 
+    slug: 'жарти', 
+    gradient: 'linear-gradient(180deg, #FF7C36 0%, #FFD3B2 100%)',
+    image: '/images/categories/joke.png'
+  },
 ];
 
 const Categories = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-pink-50 to-yellow-50">
       <Header />
-
+      <div style={{ fontFamily: "'CormorantGaramond', serif" }}>
       {/* Hero Section */}
       <section className="py-12">
         <div className="container mx-auto px-4 text-center">
@@ -35,29 +48,59 @@ const Categories = () => {
         </div>
       </section>
 
+      {/* Categories Section */}
+      <section className="top-mobile sub-section-bg flex items-center">
+        <StarIcon width={43} height={43} />
+        <h3 className="h3-base">
+          Обери свою категорію
+        </h3>
+        <StarIcon width={43} height={43} />
+      </section>
+
       {/* Categories Grid */}
-      <section className="py-12">
+      <section className="py-12 mobile-section-bg">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category, index) => {
-              const IconComponent = category.icon;
+          <div className="flex flex-wrap justify-around gap-y-4 md:grid md:grid-cols-4 md:gap-4">
+            {categories.map((category) => {
               return (
                 <Link 
                   key={category.slug}
                   to={`/category/${category.slug}`}
                   className="group"
                 >
-                  <Card className="hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer border-2 hover:border-kidsPrimary h-full">
-                    <CardContent className="p-6 text-center h-full flex flex-col">
-                      <div className={`${category.color} rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 group-hover:animate-bounce-gentle`}>
-                        <IconComponent className="w-10 h-10 text-white" />
+                  <Card 
+                    className="overflow-hidden transition-all duration-300 hover:scale-105 cursor-pointer relative"
+                    style={{
+                      borderRadius: '18px',
+                      background: category.gradient,
+                    }}
+                  >
+                    <div 
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        boxShadow: 'inset 0 4px 8px rgba(0, 0, 0, 0.1)',
+                        borderRadius: '18px',
+                        zIndex: 1,
+                      }}
+                    />
+                    <CardContent className="p-0 relative" style={{ zIndex: 0 }}>
+                      <div className="relative w-full h-[74px] md:h-48 flex items-center justify-center">
+                        <img 
+                          src={category.image} 
+                          alt={category.name}
+                          className="cover"
+                        />
                       </div>
-                      <h3 className="font-bold text-xl text-gray-800 mb-3">
-                        {category.name}
-                      </h3>
-                      <p className="text-gray-600 text-sm flex-grow">
-                        {category.description}
-                      </p>
+                      <div 
+                        className="w-full bg-white px-4 "
+                        style={{ borderRadius: '8px' ,
+                          backgroundColor: '#FFF0D5'
+                        }}
+                      >
+                        <h4 className="font-bold text-gray-800 text-center leading-7 font-cormorant-bold text-[20px] md:text-[26px]">
+                          {category.name}
+                        </h4>
+                      </div>
                     </CardContent>
                   </Card>
                 </Link>
@@ -66,6 +109,7 @@ const Categories = () => {
           </div>
         </div>
       </section>
+      </div>
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8 mt-12">
