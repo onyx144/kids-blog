@@ -190,7 +190,7 @@ const Index = () => {
           </h3>
           <StarIcon width={43} height={43} />
           </section>
-      {/* Categories Grid: */}
+      {/* Categories Grid:*/}
       <section className="py-12   mobile-section-bg">
         <div className="container mx-auto px-4">
           
