@@ -54,3 +54,5 @@ export function ParticipantCard({ participant, isLiked, onToggleLike }: Particip
   );
 }
 
+
+
