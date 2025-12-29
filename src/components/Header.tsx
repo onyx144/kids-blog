@@ -41,6 +41,9 @@ export default function Header({ home = false, backLink = 'home', category }: He
               <Link to="/categories" className="text-gray-600 hover:text-kidsPrimary transition-colors">
                 Категорії
               </Link>
+              <Link to="/concurs" className="text-gray-600 hover:text-kidsPrimary transition-colors">
+                Конкурс
+              </Link>
               <Link to="/about" className="text-gray-600 hover:text-kidsPrimary transition-colors">
                 Про нас
               </Link>
