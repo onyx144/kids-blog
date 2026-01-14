@@ -42,7 +42,7 @@ export function ParticipantCard({ participant, isLiked, onToggleLike }: Particip
           <h3 className="text-xl font-bold text-gray-800">{participant.name}</h3>
           <span className="text-sm text-gray-500">{participant.age} років</span>
         </div>
-        <p className="text-gray-600">{participant.description}</p>
+        <p className="text-gray-600 mb-4 line-clamp-2">{participant.description}</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-gray-600">
             <Heart className={`w-4 h-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />

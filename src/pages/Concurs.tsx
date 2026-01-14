@@ -112,9 +112,9 @@ export default function Concurs() {
   return (
     <div className="min-h-screen">
       <Header />
-      <div className="w-full">
+      <div className="w-full" style={{ background: 'linear-gradient(180deg, #ffb32899, #fff9)' }}>
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-12 md:py-20 text-center" style={{ background: 'linear-gradient(180deg, #ffb32899, #fff9)' }}>
+        <section className="container mx-auto px-4 py-12 md:py-20 text-center">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8 flex justify-center">
               <ImageWithFallback
@@ -131,7 +131,7 @@ export default function Concurs() {
         </section>
 
         {/* About Section */}
-        <section className="container mx-auto px-4 pb-12" style={{ background: 'linear-gradient(180deg, #ffb32899, #fff9)' }}>
+        <section className="container mx-auto px-4 pb-12">
           <div className="max-w-3xl mx-auto">
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 md:p-10 shadow-lg">
               <h2 className="mb-6 text-center">Про наш конкурс</h2>
@@ -143,7 +143,7 @@ export default function Concurs() {
         </section>
 
         {/* Action Cards */}
-        <section className="container mx-auto px-4 pb-16" style={{ background: 'linear-gradient(180deg, #ffb32899, #fff9)' }}>
+        <section className="container mx-auto px-4 pb-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <button
               onClick={() => onNavigate('create')}
@@ -181,7 +181,7 @@ export default function Concurs() {
         </section>
 
         {/* Participants Section */}
-        <section className="container mx-auto px-4 pb-16" style={{ background: 'linear-gradient(180deg, #ffb32899, #fff9)' }}>
+        <section className="container mx-auto px-4 pb-16">
           <h2 className="text-center mb-8">Учасники конкурсу</h2>
 
           {/* Category Filter */}
@@ -222,6 +222,7 @@ export default function Concurs() {
     </div>
   );
 }
+
 
 
 
