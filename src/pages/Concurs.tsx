@@ -185,7 +185,7 @@ export default function Concurs() {
           <h2 className="text-center mb-8">Учасники конкурсу</h2>
 
           {/* Category Filter */}
-          <div className="max-w-5xl  mb-10">
+          <div className="max-w-5xl mx-auto mb-10">
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-4 md:p-6 shadow-lg">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                 {categories.map((category) => (
