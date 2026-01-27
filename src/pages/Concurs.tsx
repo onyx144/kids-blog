@@ -1,4 +1,4 @@
-import { Heart, FileEdit, Trophy, BookOpen } from 'lucide-react';
+import { Heart, FileEdit, Trophy, BookOpen, X } from 'lucide-react';
 import { ParticipantCard } from '../components/ParticipantCard';
 import { useState } from 'react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
@@ -95,6 +95,10 @@ export default function Concurs() {
     }
   };
 
+  const clearFilters = () => {
+    setSelectedCategories([]);
+  };
+
   const toggleLike = (participantId: number) => {
     const newLiked = new Set(likedParticipants);
     if (newLiked.has(participantId)) {
@@ -111,6 +115,18 @@ export default function Concurs() {
 
   return (
     <div className="min-h-screen">
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
       <Header />
       <div className="w-full" style={{ background: 'linear-gradient(180deg, #ffb32899, #fff9)' }}>
         {/* Hero Section */}
@@ -182,11 +198,28 @@ export default function Concurs() {
 
         {/* Participants Section */}
         <section className="container mx-auto px-4 pb-16">
-          <h2 className="text-center mb-8">Учасники конкурсу</h2>
+          <div className="text-center mb-8">
+            <h2 className="mb-2">Учасники конкурсу</h2>
+            <p className="text-gray-700 text-sm md:text-base">
+              Знайдено: <span className="font-semibold text-[rgb(255,107,53)]">{filteredParticipants.length}</span> {filteredParticipants.length === 1 ? 'учасник' : filteredParticipants.length < 5 ? 'учасники' : 'учасників'}
+            </p>
+          </div>
 
           {/* Category Filter */}
           <div className="max-w-5xl mx-auto mb-10">
             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-4 md:p-6 shadow-lg">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm md:text-base font-semibold text-gray-800">Фільтр за категоріями:</h3>
+                {selectedCategories.length > 0 && (
+                  <button
+                    onClick={clearFilters}
+                    className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-200 hover:scale-105"
+                  >
+                    <X className="w-4 h-4" />
+                    Очистити всі
+                  </button>
+                )}
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                 {categories.map((category) => (
                   <button
@@ -207,16 +240,45 @@ export default function Concurs() {
           </div>
 
           {/* Participants Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {filteredParticipants.map((participant) => (
-              <ParticipantCard
-                key={participant.id}
-                participant={participant}
-                isLiked={likedParticipants.has(participant.id)}
-                onToggleLike={() => toggleLike(participant.id)}
-              />
-            ))}
-          </div>
+          {filteredParticipants.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {filteredParticipants.map((participant, index) => (
+                <div
+                  key={participant.id}
+                  className="animate-fade-in"
+                  style={{
+                    animationDelay: `${index * 0.1}s`,
+                    animation: 'fadeInUp 0.5s ease-out forwards',
+                    opacity: 0,
+                  }}
+                >
+                  <ParticipantCard
+                    participant={participant}
+                    isLiked={likedParticipants.has(participant.id)}
+                    onToggleLike={() => toggleLike(participant.id)}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="max-w-md mx-auto text-center py-12">
+              <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">Учасників не знайдено</h3>
+                <p className="text-gray-600 mb-6">
+                  Спробуйте вибрати інші категорії або очистити фільтри
+                </p>
+                {selectedCategories.length > 0 && (
+                  <button
+                    onClick={clearFilters}
+                    className="px-6 py-3 bg-gradient-to-br from-[rgb(255,107,53)] to-[rgb(255,140,90)] text-white rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  >
+                    Показати всіх учасників
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </section>
       </div>
     </div>
