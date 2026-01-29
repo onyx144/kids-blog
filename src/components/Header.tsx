@@ -8,133 +8,113 @@ interface HeaderProps {
   category?: string
 }
 
-export default function Header({ home = false, backLink = 'home', category }: HeaderProps) {
+export default function Header({
+  home = false,
+  backLink = 'home',
+  category
+}: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const closeMenu = () => {
-    setIsMenuOpen(false)
-  }
-
   return (
-    <header className="bg-white shadow-lg border-b-4 border-kidsPrimary relative">
-      <div className=" mx-auto px-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity" onClick={closeMenu}>
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-kidsPrimary/20 shadow-lg">
+      <div className="mx-auto px-4 flex justify-between items-center h-24">
+
+        {/* Logo */}
+        <Link
+          to="/"
+          onClick={() => setIsMenuOpen(false)}
+          className="flex items-center gap-3 group"
+        >
           <img
             src="/images/logo.png"
-            alt="Дитячий Тиждень логотип"
-            className="h-28 w-28 object-contain animate-bounce-gentle"
-            loading="eager"
+            alt="Дитячий Тиждень"
+            className="h-20 w-20 object-contain transition-transform duration-300 group-hover:scale-110 group-hover:rotate-2"
           />
+          <span className="hidden sm:block text-xl font-extrabold bg-gradient-to-r from-kidsPrimary to-kidsSecondary bg-clip-text text-transparent">
+            Дитячий Тиждень
+          </span>
         </Link>
 
         {home ? (
           <>
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-6">
-              <Link to="/" className="text-kidsPrimary font-semibold hover:text-kidsSecondary transition-colors">
-                Головна
-              </Link>
-              <Link to="/categories" className="text-gray-600 hover:text-kidsPrimary transition-colors">
-                Категорії
-              </Link>
-              <Link to="/concurs" className="text-gray-600 hover:text-kidsPrimary transition-colors">
-                Конкурс
-              </Link>
-              <Link to="/about" className="text-gray-600 hover:text-kidsPrimary transition-colors">
-                Про нас
-              </Link>
-              <Link to="/contact" className="text-gray-600 hover:text-kidsPrimary transition-colors">
-                Контакти
-              </Link>
+            {/* Desktop nav */}
+            <nav className="hidden md:flex items-center gap-8">
+              {[
+                ['/', 'Головна'],
+                ['/categories', 'Категорії'],
+                ['/concurs', 'Конкурс'],
+                ['/about', 'Про нас'],
+                ['/contact', 'Контакти']
+              ].map(([to, label]) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="relative font-semibold text-gray-700 hover:text-kidsPrimary transition-colors
+                             after:absolute after:-bottom-2 after:left-0 after:h-[3px] after:w-0
+                             after:bg-kidsPrimary after:rounded-full
+                             after:transition-all after:duration-300 hover:after:w-full"
+                >
+                  {label}
+                </Link>
+              ))}
             </nav>
 
-            {/* Mobile Burger Button */}
+            {/* Burger */}
             <button
-              onClick={toggleMenu}
-              className="md:hidden flex flex-col justify-center items-center w-12 h-12 space-y-2 focus:outline-none z-50 relative"
-              aria-label="Toggle menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden w-12 h-12 flex flex-col justify-center items-center gap-2 z-50"
             >
-              <span
-                className={`block h-1 transition-all duration-300 ease-in-out ${
-                  isMenuOpen ? 'rotate-45 translate-y-2.5 w-[32px]' : 'w-[43px]'
-                }`}
-                style={{ backgroundColor: '#4D170D' }}
-              />
-              <span
-                className={`block h-1 transition-all duration-300 ease-in-out ${
-                  isMenuOpen ? 'opacity-0 w-0' : 'w-[43px] opacity-100'
-                }`}
-                style={{ backgroundColor: '#4D170D' }}
-              />
-              <span
-                className={`block h-1 transition-all duration-300 ease-in-out ${
-                  isMenuOpen ? '-rotate-45 -translate-y-3.5 w-[32px]' : 'w-[43px]'
-                }`}
-                style={{ backgroundColor: '#4D170D' }}
-              />
+              <span className={`h-1 bg-kidsPrimary rounded transition-all ${isMenuOpen ? 'w-8 rotate-45 translate-y-2' : 'w-10'}`} />
+              <span className={`h-1 bg-kidsPrimary rounded transition-all ${isMenuOpen ? 'opacity-0' : 'w-10'}`} />
+              <span className={`h-1 bg-kidsPrimary rounded transition-all ${isMenuOpen ? 'w-8 -rotate-45 -translate-y-2' : 'w-10'}`} />
             </button>
 
-            {/* Mobile Menu */}
+            {/* Mobile menu */}
             <nav
-              className={`fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out ${
-                isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-              } md:hidden`}
+              className={`fixed top-0 right-0 h-full w-72 bg-white/95 backdrop-blur-lg shadow-2xl
+              transform transition-transform duration-300
+              ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}
             >
-              <div className="flex flex-col pt-24 px-6 space-y-6">
-                <Link
-                  to="/"
-                  onClick={closeMenu}
-                  className="text-kidsPrimary font-semibold text-lg hover:text-kidsSecondary transition-colors"
-                >
-                  Головна
-                </Link>
-                <Link
-                  to="/categories"
-                  onClick={closeMenu}
-                  className="text-gray-600 text-lg hover:text-kidsPrimary transition-colors"
-                >
-                  Категорії
-                </Link>
-                <Link
-                  to="/about"
-                  onClick={closeMenu}
-                  className="text-gray-600 text-lg hover:text-kidsPrimary transition-colors"
-                >
-                  Про нас
-                </Link>
-                <Link
-                  to="/contact"
-                  onClick={closeMenu}
-                  className="text-gray-600 text-lg hover:text-kidsPrimary transition-colors"
-                >
-                  Контакти
-                </Link>
+              <div className="pt-32 px-6 flex flex-col gap-6">
+                {[
+                  ['/', 'Головна'],
+                  ['/categories', 'Категорії'],
+                  ['/concurs', 'Конкурс'],
+                  ['/about', 'Про нас'],
+                  ['/contact', 'Контакти']
+                ].map(([to, label]) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-xl font-semibold text-gray-700 hover:text-kidsPrimary transition"
+                  >
+                    {label}
+                  </Link>
+                ))}
               </div>
             </nav>
 
             {/* Overlay */}
             {isMenuOpen && (
               <div
-                className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
-                onClick={closeMenu}
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm md:hidden"
+                onClick={() => setIsMenuOpen(false)}
               />
             )}
           </>
         ) : (
           <Link
             to={backLink === 'category' && category ? `/category/${category}` : '/'}
-            className="flex items-center space-x-2 text-gray-600 hover:text-kidsPrimary transition-colors"
+            className="flex items-center gap-2 text-gray-600 hover:text-kidsPrimary transition"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span className="capitalize">{backLink === 'category' && category ? category : 'На головну'}</span>
+            <span className="capitalize">
+              {backLink === 'category' && category ? category : 'На головну'}
+            </span>
           </Link>
         )}
       </div>
     </header>
   )
 }
-
