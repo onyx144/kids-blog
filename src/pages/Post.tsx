@@ -8,6 +8,7 @@ import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import fm from 'front-matter'
 import Header from '@/components/Header'
+import { getNewsBySlug } from '@/services/news/news'
 
 interface PostMeta {
   title?: string
@@ -33,6 +34,10 @@ export default function Post() {
 
   useEffect(() => {
     if (!slug) return
+    setError(false)
+    setMeta(null)
+    setContent('Завантаження...')
+
     fetch(`/content/${slug}.md`)
       .then(res => {
         if (!res.ok) throw new Error('Not found')
@@ -42,12 +47,26 @@ export default function Post() {
         const cleanText = text.replace(/^\uFEFF/, '').trim()
         const { attributes, body } = fm<PostMeta>(cleanText)
         setMeta(attributes)
-        console.log(body);
         setContent(body)
       })
-      .catch(err => {
-        console.error('❌ Fetch error:', err)
-        setError(true)
+      .catch(() => {
+        getNewsBySlug(slug)
+          .then(news => {
+            if (news) {
+              setMeta({
+                title: news.title,
+                category: news.category,
+                date: news.date,
+                author: news.author,
+                image: news.image,
+                alt: news.description,
+              })
+              setContent(news.content)
+            } else {
+              setError(true)
+            }
+          })
+          .catch(() => setError(true))
       })
   }, [slug])
 
