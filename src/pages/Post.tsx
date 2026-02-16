@@ -112,7 +112,7 @@ export default function Post() {
       <strong className="font-bold text-gray-800" {...props} />
     ),
     p: ({node, ...props}: any) => (
-      <p className="text-lg text-gray-700 leading-relaxed mb-6" {...props} />
+      <p className="text-lg text-gray-600 leading-relaxed mb-6" {...props} />
     ),
     a: ({node, ...props}: any) => (
       <a
