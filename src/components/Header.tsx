@@ -106,7 +106,7 @@ export default function Header({
         ) : (
           <Link
             to={backLink === 'category' && category ? `/category/${category}` : '/'}
-            className="flex items-center gap-2 text-gray-600 hover:text-kidsPrimary transition"
+            className="flex s items-center gap-2 text-gray-600 hover:text-kidsPrimary transition"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="capitalize">
