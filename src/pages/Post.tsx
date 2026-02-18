@@ -99,7 +99,7 @@ export default function Post() {
     ),
     blockquote: ({node, ...props}: any) => (
       <div className="bg-gradient-to-r from-kidsYellow/20 to-kidsPink/20 border-l-4 border-kidsPrimary p-6 rounded-r-lg mb-6">
-        <p className="text-lg italic text-gray-700 mb-0" {...props} />
+        <p className="text-lg italic text-gray-700 mb-0 flex" {...props} />
       </div>
     ),
     li: ({node, ...props}: any) => (
