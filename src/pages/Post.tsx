@@ -104,7 +104,7 @@ export default function Post() {
     ),
     li: ({node, ...props}: any) => (
       <li className="flex items-start space-x-3 mb-2">
-        <div className="text-kidsPrimary mt-1">🦊</div>
+        <div className="text-kidsPrimary  ">🦊</div>
         <span className="text-gray-700 text-lg" {...props} />
       </li>
     ),
