@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, User } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import Header from '@/components/Header';
 import StarIcon from '@/svg/StarIcon';
+import { getFeaturedNews } from '@/services/news/news';
 interface PostMeta {
   title: string;
   category: string;
@@ -14,6 +15,16 @@ interface PostMeta {
   image: string;
   excerpt?: string;
   description?: string;
+}
+
+interface ApiNewsItem {
+  slug: string;
+  title: string;
+  date: string;
+  author: string;
+  category: string;
+  image: string;
+  description: string;
 }
 /*Categorie:*/ 
 const categories = [
@@ -80,16 +91,29 @@ const Index = () => {
   useEffect(() => {
     const fetchLatestPosts = async () => {
       try {
-        const res = await fetch('/list/posts.json');
-        const data: PostMeta[] = await res.json();
+        const [postsRes, apiNews] = await Promise.all([
+          fetch('/list/posts.json'),
+          getFeaturedNews(),
+        ]);
 
-        const sorted = data
-          .filter(p => p.date)
+        const mdPosts: PostMeta[] = await postsRes.json();
+        const normalizedApiPosts: PostMeta[] = (apiNews as ApiNewsItem[]).map((item) => ({
+          slug: item.slug,
+          title: item.title,
+          date: item.date,
+          author: item.author,
+          category: item.category,
+          image: item.image,
+          description: item.description,
+        }));
+
+        const sorted = [...mdPosts, ...normalizedApiPosts]
+          .filter((p) => p.date)
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
         setLatestNews(sorted.slice(0, 12));
       } catch (err) {
-        console.error('❌ Error fetching posts.json:', err);
+        console.error('❌ Error fetching latest news:', err);
       }
     };
 

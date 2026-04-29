@@ -38,36 +38,58 @@ export default function Post() {
     setMeta(null)
     setContent('Завантаження...')
 
-    fetch(`/content/${slug}.md`)
-      .then(res => {
+    const loadPost = async () => {
+      try {
+        const markdownUrl = `/content/${slug}.md`
+        const headRes = await fetch(markdownUrl, { method: 'HEAD' })
+        const headContentType = (headRes.headers.get('content-type') || '').toLowerCase()
+        const markdownExists = headRes.ok && !headContentType.includes('text/html')
+
+        if (!markdownExists) {
+          throw new Error('Markdown file does not exist')
+        }
+
+        const res = await fetch(markdownUrl)
         if (!res.ok) throw new Error('Not found')
-        return res.text()
-      })
-      .then(text => {
+
+        const text = await res.text()
         const cleanText = text.replace(/^\uFEFF/, '').trim()
+
+        // In dev server unknown .md can resolve to index.html with 200.
+        if (cleanText.startsWith('<!doctype html') || cleanText.startsWith('<html')) {
+          throw new Error('Markdown file not found')
+        }
+
         const { attributes, body } = fm<PostMeta>(cleanText)
+        if (!attributes?.title && !body?.trim()) {
+          throw new Error('Invalid markdown content')
+        }
+
         setMeta(attributes)
         setContent(body)
-      })
-      .catch(() => {
-        getNewsBySlug(slug)
-          .then(news => {
-            if (news) {
-              setMeta({
-                title: news.title,
-                category: news.category,
-                date: news.date,
-                author: news.author,
-                image: news.image,
-                alt: news.description,
-              })
-              setContent(news.content)
-            } else {
-              setError(true)
-            }
-          })
-          .catch(() => setError(true))
-      })
+      } catch {
+        try {
+          const news = await getNewsBySlug(slug)
+          if (news) {
+            setMeta({
+              title: news.title,
+              category: news.category,
+              date: news.date,
+              author: news.author,
+              image: news.image,
+              alt: news.description,
+            })
+            setContent(news.content)
+          } else {
+            setError(true)
+          }
+        } catch {
+          setError(true)
+        }
+      }
+    }
+
+    loadPost()
   }, [slug])
 
   if (error)

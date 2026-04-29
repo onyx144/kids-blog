@@ -21,3 +21,18 @@ export interface NewsResponse {
   news: NewsItem;
 }
 
+export interface ArticleApiItem {
+  id: number;
+  slug: string;
+  title: string;
+  content: string;
+  category: string;
+  author_name?: string;
+  image?: string;
+  created_at: string;
+}
+
+export interface ArticlesResponse {
+  articles: ArticleApiItem[];
+}
+
